@@ -101,12 +101,12 @@ while is_game_on:
     
     while at_war:
 
-        if player_one_cards[-1] > player_two_cards[-1]:
+        if player_one_cards[-1].value > player_two_cards[-1].value:
             player_one.add_cards(player_one_cards)
             player_one.add_cards(player_two_cards)
             at_war = False
 
-        elif player_one_cards[-1] < player_two_cards[-1]:
+        elif player_one_cards[-1].value < player_two_cards[-1].value:
             player_two.add_cards(player_one_cards)
             player_two.add_cards(player_two_cards)
             at_war = False
@@ -114,16 +114,21 @@ while is_game_on:
         else:
             print('WAR!')
             
-            if len(player_one.add_cards) < 3:
+            if len(player_one.all_cards) < 3:
                 print('Player 1 was unable to declare war')
                 print("PLAYER 2 WINS!")
                 is_game_on = False
                 break
 
-            elif len(player_two.add_cards) < 3:
+            elif len(player_two.all_cards) < 3:
                 print('Player 2 was unable to declare war')
                 print("PLAYER 1 WINS!")
                 is_game_on = False
                 break
+                
+            else:
+                for i in range(3):
+                    player_one_cards.append(player_one.remove_one())
+                    player_two_cards.append(player_two.remove_one())
 
 
