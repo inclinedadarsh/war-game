@@ -1,3 +1,5 @@
+# Classes and initalizatoin below
+
 from random import shuffle
 
 suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
@@ -59,3 +61,69 @@ class Player:
     
     def __str__(self):
         return f'{self.name} has {len(self.all_cards)} cards.'
+
+# Game logic starts below
+
+player_one = Player('one')
+player_two = Player('two')
+
+new_deck = Deck()
+new_deck.shuffle()
+
+for card in range(26):
+    player_one.add_cards(new_deck.deal())
+    player_two.add_cards(new_deck.deal())
+
+is_game_on = True
+
+round = 0
+
+while is_game_on:
+    round += 1
+    print(f'Round {round}')
+
+    if len(player_one.all_cards) == 0:
+        print('Player Two wins as Player One has no cards left!')
+        is_game_on = False
+        break
+    if len(player_two.all_cards) == 0:
+        print('Player One wins as Player Two has no cards left!')
+        is_game_on = False
+        break
+
+    player_one_cards = []
+    player_one_cards.append(player_one.remove_one())
+
+    player_two_cards = []
+    player_two_cards.append(player_two.remove_one())
+
+    at_war = True
+    
+    while at_war:
+
+        if player_one_cards[-1] > player_two_cards[-1]:
+            player_one.add_cards(player_one_cards)
+            player_one.add_cards(player_two_cards)
+            at_war = False
+
+        elif player_one_cards[-1] < player_two_cards[-1]:
+            player_two.add_cards(player_one_cards)
+            player_two.add_cards(player_two_cards)
+            at_war = False
+
+        else:
+            print('WAR!')
+            
+            if len(player_one.add_cards) < 3:
+                print('Player 1 was unable to declare war')
+                print("PLAYER 2 WINS!")
+                is_game_on = False
+                break
+
+            elif len(player_two.add_cards) < 3:
+                print('Player 2 was unable to declare war')
+                print("PLAYER 1 WINS!")
+                is_game_on = False
+                break
+
+
